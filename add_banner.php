@@ -1,0 +1,113 @@
+<?php require "../config.php";
+if(isset($_GET['shop_id'])){
+    $i_=$_GET['shop_id'];
+}else{
+     //
+}
+?>
+<!DOCTYPE html>
+<html>
+   <head>
+      
+      <?php require "inc/head.php";?>
+
+      <title>Products</title>
+   </head>
+   <body>
+      <?php require "inc/nav.php";?>
+      <div class="flex_">
+         <?php require "inc/sidebar.php";?>
+         <div class="right">
+          <div class="padding">
+              <h3 class="page-title">Category</h3>
+            <form action="submit2.php" method="post" enctype="multipart/form-data" class="form-group" style="display: flex;">
+
+    
+
+    <input type="text" id="text3" name="text3" required class="form-control" placeholder="Heading">
+
+    <input type="text" id="text4" name="text4" required class="form-control" placeholder="Paragraph">
+
+    <input type="text" id="text5" name="text5" required class="form-control" placeholder="Link">
+    
+    <input type="file" id="image1" name="image1" accept="image/*" required class="form-control">
+    
+    <input type="file" id="image2" name="image2" accept="image/*" required class="form-control">
+    
+    <input type="submit" value="Submit" class="btn btn-success">
+</form>
+    
+<br>
+<!-- Your HTML and PHP code -->
+<!-- Assuming you have your database connection established and session started -->
+
+<!-- Input field for search -->
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." class="form-control">
+
+<!-- Table to display data -->
+<table class="table table-striped padding" id="tab">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Link</th><th>Delete</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        // Retrieve data from the database
+        
+        $sql="SELECT * FROM banner";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $id = $row['id'];
+                $cat = $row['link'];
+                
+
+                echo "
+                    <tr>
+                        <td>" . $id . "</td>
+                        <td>" . $cat . "</td>
+                        
+                
+                        <td><button class='btn btn-danger delete_banner' title='".$id."'>Delete</button></td>
+                    </tr>
+                ";
+            }
+        } else {
+            echo "<tr><td colspan='9'>0 results</td></tr>";
+        }
+        ?>
+    </tbody>
+</table>
+
+<script>
+function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("tab");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1]; // Get the second column ( Name)
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+</script>
+
+            </div>
+         </div>
+      </div>
+      </div>
+   </body>
+</html>
